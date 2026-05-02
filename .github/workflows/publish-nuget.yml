@@ -86,6 +86,7 @@ jobs:
           }
 
           Add-Content -Path $env:GITHUB_ENV -Value "PACKAGE_VERSION=$version"
+          Add-Content -Path $env:GITHUB_ENV -Value "MINVERVERSIONOVERRIDE=$version"
           Add-Content -Path $env:GITHUB_ENV -Value "CREATE_VERSION_TAG=$createTag"
           Add-Content -Path $env:GITHUB_OUTPUT -Value "version=$version"
 
@@ -125,6 +126,7 @@ jobs:
           -m:1
           "-p:Version=$env:PACKAGE_VERSION"
           "-p:PackageVersion=$env:PACKAGE_VERSION"
+          "-p:MinVerVersionOverride=$env:PACKAGE_VERSION"
 
       - name: Test
         run: dotnet test .\tests\Abstractions.UnitTests\Abstractions.UnitTests.csproj --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --collect "XPlat Code Coverage" --results-directory .\artifacts\test-results --verbosity minimal
@@ -145,7 +147,27 @@ jobs:
           --verbosity minimal
           "-p:Version=$env:PACKAGE_VERSION"
           "-p:PackageVersion=$env:PACKAGE_VERSION"
+          "-p:MinVerVersionOverride=$env:PACKAGE_VERSION"
           -p:EnablePackageValidation=true
+
+      - name: Verify stable package version
+        shell: pwsh
+        run: |
+          if ($env:PACKAGE_VERSION -notmatch '^\d+\.\d+\.\d+$') {
+            throw "Package version must be stable SemVer: $env:PACKAGE_VERSION"
+          }
+
+          $packageVersion = [regex]::Escape($env:PACKAGE_VERSION)
+          $nupkg = Get-ChildItem -Path .\artifacts\packages -Filter "*.nupkg" | Where-Object { $_.Name -match "\.$packageVersion\.nupkg$" }
+          $snupkg = Get-ChildItem -Path .\artifacts\packages -Filter "*.snupkg" | Where-Object { $_.Name -match "\.$packageVersion\.snupkg$" }
+
+          if ($nupkg.Count -ne 1) {
+            throw "Expected exactly one stable .nupkg for version $env:PACKAGE_VERSION, found $($nupkg.Count)."
+          }
+
+          if ($snupkg.Count -ne 1) {
+            throw "Expected exactly one stable .snupkg for version $env:PACKAGE_VERSION, found $($snupkg.Count)."
+          }
 
       - name: Upload packages
         uses: actions/upload-artifact@v4

@@ -1,4 +1,4 @@
-﻿// <copyright file="IEntity.cs" company="Atya">
+// <copyright file="IEntity.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 

@@ -1,8 +1,10 @@
 name: CI
 
 on:
+  push:
+    branches: [development]
   pull_request:
-    branches: [master]
+    branches: [development, master]
   workflow_dispatch:
 
 permissions:
@@ -69,6 +71,26 @@ jobs:
         with:
           name: test-results-${{ matrix.os }}
           path: artifacts/test-results
+
+      - name: Generate coverage report
+        if: matrix.os == 'ubuntu-latest'
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.5.0
+        with:
+          reports: artifacts/test-results/**/coverage.cobertura.xml
+          targetdir: artifacts/coverage-report
+          reporttypes: HtmlInline;MarkdownSummaryGithub;Cobertura
+
+      - name: Publish coverage summary
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: cat artifacts/coverage-report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage report
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: artifacts/coverage-report
 
       - name: Pack
         if: matrix.os == 'ubuntu-latest'

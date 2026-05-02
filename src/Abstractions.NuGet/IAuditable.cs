@@ -1,4 +1,4 @@
-﻿// <copyright file="IAuditable.cs" company="Atya">
+// <copyright file="IAuditable.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ public interface IAuditable
     /// <summary>
     /// Gets or sets the UTC timestamp when the object was created.
     /// </summary>
-    DateTimeOffset CreatedAtUtc
+    public DateTimeOffset CreatedAtUtc
     {
         get; set;
     }
@@ -20,7 +20,7 @@ public interface IAuditable
     /// <summary>
     /// Gets or sets the actor who created the object.
     /// </summary>
-    string? CreatedBy
+    public string? CreatedBy
     {
         get; set;
     }
@@ -28,7 +28,7 @@ public interface IAuditable
     /// <summary>
     /// Gets or sets the UTC timestamp of the last modification.
     /// </summary>
-    DateTimeOffset? LastModifiedAtUtc
+    public DateTimeOffset? LastModifiedAtUtc
     {
         get; set;
     }
@@ -36,7 +36,7 @@ public interface IAuditable
     /// <summary>
     /// Gets or sets the actor who last modified the object.
     /// </summary>
-    string? LastModifiedBy
+    public string? LastModifiedBy
     {
         get; set;
     }

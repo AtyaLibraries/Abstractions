@@ -1,4 +1,4 @@
-﻿// <copyright file="IResult.cs" company="Atya">
+// <copyright file="IResult.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ public interface IResult
     /// <summary>
     /// Gets a value indicating whether the operation succeeded.
     /// </summary>
-    bool IsSuccess
+    public bool IsSuccess
     {
         get;
     }
@@ -20,5 +20,5 @@ public interface IResult
     /// <summary>
     /// Gets a value indicating whether the operation failed.
     /// </summary>
-    bool IsFailure => !this.IsSuccess;
+    public bool IsFailure => !IsSuccess;
 }

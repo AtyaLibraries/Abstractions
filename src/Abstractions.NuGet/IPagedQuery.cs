@@ -1,4 +1,4 @@
-﻿// <copyright file="IPagedQuery.cs" company="Atya">
+// <copyright file="IPagedQuery.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ public interface IPagedQuery
     /// <summary>
     /// Gets the 1-based page number.
     /// </summary>
-    int PageNumber
+    public int PageNumber
     {
         get;
     }
@@ -20,7 +20,7 @@ public interface IPagedQuery
     /// <summary>
     /// Gets the requested page size.
     /// </summary>
-    int PageSize
+    public int PageSize
     {
         get;
     }

@@ -1,4 +1,4 @@
-﻿namespace Atya.Foundation.Abstractions.UnitTests;
+namespace Atya.Foundation.Abstractions.UnitTests;
 
 public sealed class ContractUsageTests
 {
