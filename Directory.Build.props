@@ -1,0 +1,70 @@
+<Project>
+
+  <!--
+    Global defaults. Applied to every project under this repository root.
+    Per-project overrides belong in the .csproj or a scoped Directory.Build.props.
+  -->
+
+  <PropertyGroup Label="Framework and language">
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Build quality">
+    <RepositoryHasGitDirectory Condition="'$(RepositoryHasGitDirectory)' == '' And Exists('$(MSBuildThisFileDirectory).git')">true</RepositoryHasGitDirectory>
+    <RepositoryHasGitDirectory Condition="'$(RepositoryHasGitDirectory)' == ''">false</RepositoryHasGitDirectory>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- Strict on shipped code; relaxed on tests/samples so a warning does not block experiments. -->
+    <TreatWarningsAsErrors Condition="'$(IsPackable)' == 'true'">true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Restore">
+    <!-- Set UseLockFiles=true to opt into per-project packages.lock.json. In CI, combine with RestoreLockedMode=true for reproducible restores. -->
+    <RestorePackagesWithLockFile Condition="'$(UseLockFiles)' == 'true'">true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging defaults">
+    <IsPackable>false</IsPackable>
+    <Authors>Arsen Asulyan</Authors>
+    <Company>Atya</Company>
+    <Copyright>Copyright (c) 2026 Arsen Asulyan</Copyright>
+    <Description>Provider-neutral contracts and marker interfaces for Atya foundation packages.</Description>
+    <PackageTags>dotnet;foundation;abstractions;contracts</PackageTags>
+    <RepositoryUrl>https://github.com/AtyaLibraries/Abstractions</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Deterministic source paths in PDBs / SourceLink metadata. -->
+    <EmbedUntrackedSources Condition="'$(RepositoryHasGitDirectory)' == 'true'">true</EmbedUntrackedSources>
+    <PublishRepositoryUrl Condition="'$(RepositoryHasGitDirectory)' == 'true'">true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Trim/AOT opt-ins (per-project)">
+    <!-- Turn these on in a leaf .csproj when the package is AOT/trim-safe. -->
+    <!-- <IsTrimmable>true</IsTrimmable> -->
+    <!-- <IsAotCompatible>true</IsAotCompatible> -->
+  </PropertyGroup>
+
+  <!--
+    Optional package icon. Drop an `icon.png` next to this file to have it embedded
+    in every packable project. Wired conditionally so projects without an icon still pack.
+  -->
+  <ItemGroup Condition="'$(IsPackable)' == 'true' And Exists('$(MSBuildThisFileDirectory)build\icon.png')">
+    <None Include="$(MSBuildThisFileDirectory)build\icon.png" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(IsPackable)' == 'true' And Exists('$(MSBuildThisFileDirectory)build\icon.png')">
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+</Project>

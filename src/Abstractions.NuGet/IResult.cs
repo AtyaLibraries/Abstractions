@@ -1,0 +1,24 @@
+﻿// <copyright file="IResult.cs" company="Atya">
+// Copyright (c) Atya. All rights reserved.
+// </copyright>
+
+namespace Atya.Foundation.Abstractions;
+
+/// <summary>
+/// Represents the minimal shared contract for a result-like type.
+/// </summary>
+public interface IResult
+{
+    /// <summary>
+    /// Gets a value indicating whether the operation succeeded.
+    /// </summary>
+    bool IsSuccess
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the operation failed.
+    /// </summary>
+    bool IsFailure => !this.IsSuccess;
+}
