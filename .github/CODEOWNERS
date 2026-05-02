@@ -10,6 +10,3 @@
 /Directory.Packages.props               @Atya/maintainers
 /global.json                            @Atya/maintainers
 /NuGet.config                           @Atya/maintainers
-
-# Public API changes — require a maintainer sign-off.
-/src/**/PublicAPI.*.txt                 @Atya/maintainers
