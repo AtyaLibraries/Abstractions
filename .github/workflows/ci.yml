@@ -21,7 +21,7 @@ env:
   NUGET_XMLDOC_MODE: skip
   SOLUTION_FILE: ./Abstractions.sln
   TEST_PROJECT: ./tests/Abstractions.UnitTests/Abstractions.UnitTests.csproj
-  PACKAGE_PROJECT: ./src/Abstractions.NuGet/Abstractions.NuGet.csproj
+  PACKAGE_PROJECT: ./src/Abstractions/Abstractions.csproj
 
 jobs:
   build:
