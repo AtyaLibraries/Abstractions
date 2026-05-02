@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup Label="Versioning + SourceLink (library-side)">
-    <PackageVersion Include="MinVer" Version="6.0.0" />
+    <PackageVersion Include="MinVer" Version="7.0.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.203" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.11.0-beta1.26075.3" />
   </ItemGroup>
