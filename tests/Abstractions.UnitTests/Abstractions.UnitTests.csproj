@@ -3,7 +3,7 @@
   <!-- Framework, analyzers, and default test packages are inherited from tests/Directory.Build.props. -->
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Abstractions.NuGet\Abstractions.NuGet.csproj" />
+    <ProjectReference Include="..\..\src\Abstractions\Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

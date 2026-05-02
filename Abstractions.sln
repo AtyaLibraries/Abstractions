@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.6.11709.129
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions.NuGet", "src\Abstractions.NuGet\Abstractions.NuGet.csproj", "{E5E38D51-1C6C-4B69-89C4-4B2B5AA47FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions", "src\Abstractions\Abstractions.csproj", "{E5E38D51-1C6C-4B69-89C4-4B2B5AA47FE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions.UnitTests", "tests\Abstractions.UnitTests\Abstractions.UnitTests.csproj", "{ECC5AFF7-2547-4208-B1F7-62C5D7924CED}"
 EndProject
@@ -12,15 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Folder", "Solution
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
 		global.json = global.json
 		LICENSE = LICENSE
-		LOCAL_NUGET.md = LOCAL_NUGET.md
-		NuGet.config = NuGet.config
-		Publish-LocalNuGet.ps1 = Publish-LocalNuGet.ps1
-		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		README.md = README.md
 	EndProjectSection
 EndProject

@@ -56,15 +56,4 @@
     <!-- <IsAotCompatible>true</IsAotCompatible> -->
   </PropertyGroup>
 
-  <!--
-    Optional package icon. Drop an `icon.png` next to this file to have it embedded
-    in every packable project. Wired conditionally so projects without an icon still pack.
-  -->
-  <ItemGroup Condition="'$(IsPackable)' == 'true' And Exists('$(MSBuildThisFileDirectory)build\icon.png')">
-    <None Include="$(MSBuildThisFileDirectory)build\icon.png" Pack="true" PackagePath="\" Visible="false" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(IsPackable)' == 'true' And Exists('$(MSBuildThisFileDirectory)build\icon.png')">
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
 </Project>
