@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -19,10 +19,14 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   NUGET_XMLDOC_MODE: skip
+  SOLUTION_FILE: ./Abstractions.sln
+  TEST_PROJECT: ./tests/Abstractions.UnitTests/Abstractions.UnitTests.csproj
+  PACKAGE_PROJECT: ./src/Abstractions.NuGet/Abstractions.NuGet.csproj
 
 jobs:
   build:
     name: build-${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -40,12 +44,13 @@ jobs:
           global-json-file: global.json
 
       - name: Restore
-        run: dotnet restore ./Abstractions.sln --verbosity minimal -m:1
+        run: dotnet restore "${{ env.SOLUTION_FILE }}" --verbosity minimal -m:1
 
       - name: Vulnerability audit
+        if: matrix.os == 'ubuntu-latest'
         shell: pwsh
         run: |
-          $audit = dotnet list ./Abstractions.sln package --vulnerable --include-transitive
+          $audit = dotnet list "$env:SOLUTION_FILE" package --vulnerable --include-transitive
           $audit | Write-Host
 
           if ($LASTEXITCODE -ne 0) {
@@ -57,13 +62,14 @@ jobs:
           }
 
       - name: Format
-        run: dotnet format ./Abstractions.sln --verify-no-changes --verbosity minimal --no-restore
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet format "${{ env.SOLUTION_FILE }}" --verify-no-changes --verbosity minimal --no-restore
 
       - name: Build
-        run: dotnet build ./Abstractions.sln --configuration Release --no-restore --verbosity minimal -m:1
+        run: dotnet build "${{ env.SOLUTION_FILE }}" --configuration Release --no-restore --verbosity minimal -m:1
 
       - name: Test
-        run: dotnet test ./tests/Abstractions.UnitTests/Abstractions.UnitTests.csproj --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --collect "XPlat Code Coverage" --results-directory artifacts/test-results --verbosity minimal
+        run: dotnet test "${{ env.TEST_PROJECT }}" --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --collect "XPlat Code Coverage" --results-directory artifacts/test-results --verbosity minimal
 
       - name: Upload test results
         if: always()
@@ -71,6 +77,7 @@ jobs:
         with:
           name: test-results-${{ matrix.os }}
           path: artifacts/test-results
+          if-no-files-found: warn
 
       - name: Generate coverage report
         if: matrix.os == 'ubuntu-latest'
@@ -91,10 +98,11 @@ jobs:
         with:
           name: coverage-report
           path: artifacts/coverage-report
+          if-no-files-found: warn
 
       - name: Pack
         if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack ./src/Abstractions.NuGet/Abstractions.NuGet.csproj --configuration Release --no-build --output artifacts/packages --verbosity minimal -p:EnablePackageValidation=true
+        run: dotnet pack "${{ env.PACKAGE_PROJECT }}" --configuration Release --no-build --output artifacts/packages --verbosity minimal -p:EnablePackageValidation=true
 
       - name: Upload packages
         if: matrix.os == 'ubuntu-latest'
@@ -104,3 +112,4 @@ jobs:
           path: |
             artifacts/packages/*.nupkg
             artifacts/packages/*.snupkg
+          if-no-files-found: error

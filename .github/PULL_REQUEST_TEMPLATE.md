@@ -14,7 +14,6 @@
 
 - [ ] Tests cover the change (bug fix: failing-before, passing-after).
 - [ ] `CHANGELOG.md` updated under `[Unreleased]`.
-- [ ] `PublicAPI.Unshipped.txt` updated for any public API change.
 - [ ] `dotnet build` and `dotnet test` pass locally.
 - [ ] No new analyzer warnings.
 

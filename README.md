@@ -42,11 +42,6 @@ interfaces.
 
 Artifacts land in `artifacts/packages/`.
 
-## Public API Surface
-
-Public API changes must be tracked in
-[`src/Abstractions.NuGet/PublicAPI.Unshipped.txt`](src/Abstractions.NuGet/PublicAPI.Unshipped.txt).
-
 ## Local NuGet Feed
 
 For rapid local iteration against other packages on the same machine, see

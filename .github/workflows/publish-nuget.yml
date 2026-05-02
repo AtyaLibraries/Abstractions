@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: publish-nuget-master
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 env:
@@ -22,10 +22,14 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   NUGET_XMLDOC_MODE: skip
+  SOLUTION_FILE: .\Abstractions.sln
+  TEST_PROJECT: .\tests\Abstractions.UnitTests\Abstractions.UnitTests.csproj
+  PACKAGE_PROJECT: .\src\Abstractions.NuGet\Abstractions.NuGet.csproj
 
 jobs:
   publish:
     runs-on: windows-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -98,12 +102,12 @@ jobs:
           global-json-file: global.json
 
       - name: Restore
-        run: dotnet restore .\Abstractions.sln --verbosity minimal -m:1
+        run: dotnet restore "$env:SOLUTION_FILE" --verbosity minimal -m:1
 
       - name: Vulnerability audit
         shell: pwsh
         run: |
-          $audit = dotnet list .\Abstractions.sln package --vulnerable --include-transitive
+          $audit = dotnet list "$env:SOLUTION_FILE" package --vulnerable --include-transitive
           $audit | Write-Host
 
           if ($LASTEXITCODE -ne 0) {
@@ -115,11 +119,11 @@ jobs:
           }
 
       - name: Format
-        run: dotnet format .\Abstractions.sln --verify-no-changes --verbosity minimal --no-restore
+        run: dotnet format "$env:SOLUTION_FILE" --verify-no-changes --verbosity minimal --no-restore
 
       - name: Build
         run: >
-          dotnet build .\Abstractions.sln
+          dotnet build "$env:SOLUTION_FILE"
           --configuration Release
           --no-restore
           --verbosity minimal
@@ -129,7 +133,7 @@ jobs:
           "-p:MinVerVersionOverride=$env:PACKAGE_VERSION"
 
       - name: Test
-        run: dotnet test .\tests\Abstractions.UnitTests\Abstractions.UnitTests.csproj --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --collect "XPlat Code Coverage" --results-directory .\artifacts\test-results --verbosity minimal
+        run: dotnet test "$env:TEST_PROJECT" --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --collect "XPlat Code Coverage" --results-directory .\artifacts\test-results --verbosity minimal
 
       - name: Upload test results
         if: always()
@@ -137,10 +141,11 @@ jobs:
         with:
           name: publish-test-results
           path: .\artifacts\test-results
+          if-no-files-found: warn
 
       - name: Pack
         run: >
-          dotnet pack .\src\Abstractions.NuGet\Abstractions.NuGet.csproj
+          dotnet pack "$env:PACKAGE_PROJECT"
           --configuration Release
           --no-build
           --output .\artifacts\packages
@@ -176,6 +181,7 @@ jobs:
           path: |
             .\artifacts\packages\*.nupkg
             .\artifacts\packages\*.snupkg
+          if-no-files-found: error
 
       - name: Publish to nuget.org
         env:

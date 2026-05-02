@@ -20,5 +20,5 @@ public interface IResult
     /// <summary>
     /// Gets a value indicating whether the operation failed.
     /// </summary>
-    public bool IsFailure => !IsSuccess;
+    public bool IsFailure => !this.IsSuccess;
 }
