@@ -1,4 +1,4 @@
-﻿// <copyright file="IHasId.cs" company="Atya">
+// <copyright file="IHasId.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 
@@ -13,7 +13,7 @@ public interface IHasId<out TId>
     /// <summary>
     /// Gets the identifier value.
     /// </summary>
-    TId Id
+    public TId Id
     {
         get;
     }

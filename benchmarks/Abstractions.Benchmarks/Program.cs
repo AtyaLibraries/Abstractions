@@ -1,4 +1,4 @@
-﻿using Atya.Foundation.Abstractions;
+using Atya.Foundation.Abstractions;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 

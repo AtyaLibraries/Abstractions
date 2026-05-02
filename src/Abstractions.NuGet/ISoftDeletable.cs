@@ -1,4 +1,4 @@
-﻿// <copyright file="ISoftDeletable.cs" company="Atya">
+// <copyright file="ISoftDeletable.cs" company="Atya">
 // Copyright (c) Atya. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ public interface ISoftDeletable
     /// <summary>
     /// Gets or sets a value indicating whether the object is logically deleted.
     /// </summary>
-    bool IsDeleted
+    public bool IsDeleted
     {
         get; set;
     }
@@ -20,7 +20,7 @@ public interface ISoftDeletable
     /// <summary>
     /// Gets or sets the UTC timestamp when the object was marked as deleted.
     /// </summary>
-    DateTimeOffset? DeletedAtUtc
+    public DateTimeOffset? DeletedAtUtc
     {
         get; set;
     }
@@ -28,7 +28,7 @@ public interface ISoftDeletable
     /// <summary>
     /// Gets or sets the actor who marked the object as deleted.
     /// </summary>
-    string? DeletedBy
+    public string? DeletedBy
     {
         get; set;
     }

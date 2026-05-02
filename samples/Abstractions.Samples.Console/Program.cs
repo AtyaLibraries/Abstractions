@@ -1,4 +1,4 @@
-﻿using Atya.Foundation.Abstractions;
+using Atya.Foundation.Abstractions;
 
 Order order = new(Guid.NewGuid())
 {
