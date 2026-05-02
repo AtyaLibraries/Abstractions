@@ -9,7 +9,7 @@ Provider-neutral contracts and marker interfaces for Atya foundation packages.
 | License | MIT |
 
 > This README is the repository landing page. A minimal, consumer-facing copy
-> is packed into the NuGet package from `src/Abstractions.NuGet/README.md`.
+> is packed into the NuGet package from `src/Abstractions/README.md`.
 
 ## Purpose
 
@@ -28,7 +28,7 @@ interfaces.
 
 ## Layout
 
-- `src/Abstractions.NuGet/` for the shipped package
+- `src/Abstractions/` for the shipped package
 - `tests/Abstractions.UnitTests/` for contract-focused tests
 - `samples/Abstractions.Samples.Console/` for runnable usage examples
 - `benchmarks/Abstractions.Benchmarks/` for BenchmarkDotNet coverage
@@ -36,13 +36,10 @@ interfaces.
 ## Build, Test, Pack
 
 ```bash
-./build/build.ps1 -Configuration Release
-./build/pack.ps1 -Configuration Release
+dotnet restore ./Abstractions.sln
+dotnet build ./Abstractions.sln --configuration Release --no-restore
+dotnet test ./tests/Abstractions.UnitTests/Abstractions.UnitTests.csproj --configuration Release --no-build
+dotnet pack ./src/Abstractions/Abstractions.csproj --configuration Release --no-build
 ```
 
 Artifacts land in `artifacts/packages/`.
-
-## Local NuGet Feed
-
-For rapid local iteration against other packages on the same machine, see
-[LOCAL_NUGET.md](LOCAL_NUGET.md) and [Publish-LocalNuGet.ps1](Publish-LocalNuGet.ps1).
