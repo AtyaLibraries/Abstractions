@@ -6,6 +6,7 @@
     <AssemblyName>Atya.Foundation.Abstractions</AssemblyName>
     <RootNamespace>Atya.Foundation.Abstractions</RootNamespace>
     <IsPackable>true</IsPackable>
+    <PackageValidationBaselineVersion>1.0.3</PackageValidationBaselineVersion>
     <Authors>Arsen Asulyan</Authors>
     <Copyright>Copyright (c) 2026 Arsen Asulyan</Copyright>
     <Description>Common abstractions for Atya foundation packages.</Description>
