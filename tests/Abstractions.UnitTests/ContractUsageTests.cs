@@ -20,6 +20,26 @@ public sealed class ContractUsageTests
     }
 
     [Fact]
+    public void IHasId_Should_Support_Covariant_Reference_Identifiers()
+    {
+        IHasId<string> specific = new FakeReferenceId("customer-1");
+
+        IHasId<object> general = specific;
+
+        general.Id.Should().Be("customer-1");
+    }
+
+    [Fact]
+    public void IEntity_Should_Support_Covariant_Reference_Identifiers()
+    {
+        IEntity<string> specific = new FakeReferenceEntity("order-1");
+
+        IEntity<object> general = specific;
+
+        general.Id.Should().Be("order-1");
+    }
+
+    [Fact]
     public void IAuditable_Should_Allow_Audit_Values()
     {
         DateTimeOffset createdAt = new(2026, 4, 22, 10, 0, 0, TimeSpan.Zero);
@@ -81,6 +101,10 @@ public sealed class ContractUsageTests
     }
 
     private sealed record FakeEntity(Guid Id) : IEntity<Guid>;
+
+    private sealed record FakeReferenceId(string Id) : IHasId<string>;
+
+    private sealed record FakeReferenceEntity(string Id) : IEntity<string>;
 
     private sealed class FakeAuditableEntity : IEntity<Guid>, IAuditable
     {
