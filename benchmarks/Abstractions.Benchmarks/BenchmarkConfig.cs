@@ -7,8 +7,14 @@ using BenchmarkDotNet.Loggers;
 
 namespace Abstractions.Benchmarks;
 
+/// <summary>
+/// Configures benchmark columns, diagnosers, exporters, and logging.
+/// </summary>
 public sealed class BenchmarkConfig : ManualConfig
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BenchmarkConfig"/> class.
+    /// </summary>
     public BenchmarkConfig()
     {
         AddColumnProvider(DefaultColumnProviders.Instance);

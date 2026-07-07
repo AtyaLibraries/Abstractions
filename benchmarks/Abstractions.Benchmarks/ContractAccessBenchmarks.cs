@@ -4,6 +4,9 @@ using BenchmarkDotNet.Attributes;
 
 namespace Abstractions.Benchmarks;
 
+/// <summary>
+/// Benchmarks reading values through the public abstraction contracts.
+/// </summary>
 [SuppressMessage(
     "Performance",
     "CA1859:Use concrete types when possible",
@@ -22,18 +25,38 @@ public class ContractAccessBenchmarks
         LastModifiedBy = "admin",
     };
 
+    /// <summary>
+    /// Reads the success flag through <see cref="IResult"/>.
+    /// </summary>
+    /// <returns><see langword="true"/> when the result represents success.</returns>
     [Benchmark]
     public bool ReadIsSuccess() => this.success.IsSuccess;
 
+    /// <summary>
+    /// Reads the failure flag through <see cref="IResult"/>.
+    /// </summary>
+    /// <returns><see langword="true"/> when the result represents failure.</returns>
     [Benchmark]
     public bool ReadIsFailure() => this.failure.IsFailure;
 
+    /// <summary>
+    /// Reads the identifier through <see cref="IHasId{TId}"/>.
+    /// </summary>
+    /// <returns>The entity identifier.</returns>
     [Benchmark]
     public Guid ReadEntityId() => this.entity.Id;
 
+    /// <summary>
+    /// Reads the page size through <see cref="IPagedQuery"/>.
+    /// </summary>
+    /// <returns>The requested page size.</returns>
     [Benchmark]
     public int ReadPagedQueryPageSize() => this.pagedQuery.PageSize;
 
+    /// <summary>
+    /// Reads the creation timestamp through <see cref="IAuditable"/>.
+    /// </summary>
+    /// <returns>The creation timestamp.</returns>
     [Benchmark]
     public DateTimeOffset ReadAuditCreatedAtUtc() => this.auditable.CreatedAtUtc;
 
