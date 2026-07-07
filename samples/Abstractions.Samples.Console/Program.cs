@@ -6,7 +6,7 @@ Order order = new(Guid.NewGuid())
     CreatedBy = "sample",
 };
 
-IPagedQuery query = new OrdersPageQuery(1, 25);
+OrdersPageQuery query = new(1, 25);
 IResult result = new SampleResult(true);
 
 Console.WriteLine("Package: Atya.Foundation.Abstractions");
